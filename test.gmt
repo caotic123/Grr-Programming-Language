@@ -1,0 +1,6 @@
+[
+  A <- P Z <- S
+  [P <- "HelloWorld" [T <- X]]
+]
+
+[Init <- P]
