@@ -4,10 +4,10 @@ Grr Language is a turing completeness recursive language that is based Chomsky g
 
 Hello World:
 
-´´´
+```
 [P <- "Hello World"]
 [Init <- P]
-´´´
+```
 
 Everything is a string and everything can be a rule (or a variable explicit or a variable implicit).
 
