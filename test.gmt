@@ -1,6 +1,12 @@
 [
-  A <- P Z <- S
-  [P <- "HelloWorld" [T <- X]]
+   Ώ <- PAX"HELLOWORLD"
+    A(D) <- D 
+      Z <- "Azul"
+        [
+            P <- "HelloWorld"
+              [
+                  T <- X
+                  sd <- TESTT
+              ]
+        ]
 ]
-
-[Init <- P]
