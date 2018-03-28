@@ -1,9 +1,10 @@
 [
-   Ώ <- PAX"HELLOWORLD"
+   Ώ <- ZPAX"HELLOWORLD"
     A(D) <- D 
       Z <- "Azul"
         [
             P <- "HelloWorld"
+			Z <- "a"
               [
                   T <- X
                   sd <- TESTT

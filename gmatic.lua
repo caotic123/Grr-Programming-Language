@@ -4,12 +4,14 @@
 	{"Syntax Error: '[' or ']'", os.exit},
 	{"Syntax error : Excessed number of '[' ']'", os.exit},
 	{"Error : Inital "..lex[4].." don't found", os.exit},
-    {"Error : "..lex[4].." was defined out main scope", os.exit}
+    {"Error : "..lex[4].." was defined out main scope", os.exit},
+	{"Error : Rules are ambigous or defined in same context", os.exit}
    }
 
  local forb_lex = {9}
 
- function error__(i) 
+ function error__(i, x)
+	if x then print(x) end
 	print(error_[i][1])
 	error_[i][2] ()
   end
@@ -44,14 +46,10 @@
    for i=0, #t do
      p = t:sub(i, i) == lex[1] and p+1 or t:sub(i, i) == lex[2] and p-1 or p
      __ = (t:sub(i, i) == lex[2] and p == 2) and __+1 or __
-       --print("("..t..")"..((__ and p ~= 1) and "Error" or "Right"))
 	end
     return (not (__ >= 2))
   end
  
---  r_rrl = function(s, t, d)
---	return s[d] and r_rrl(s, {s[d], unpack(t)}, (d and d+1 or d)) or t
- -- end
 
   f = function(x) return x(x) end
 
@@ -69,7 +67,7 @@
   right_r = function(s) return treat_str(s, #s, #s, (function(_) return _-1 end), (function(_, __) return 1, __ end)) end
  
   function rule__(s)
-	t = {}
+	local t = {}
 	for i=1, #s do
 	  if (s:sub(i, (i-1)+#lex[3]) == lex[3]) then
 	    t[#t+1] = {}
@@ -132,8 +130,94 @@
 	if (___[1] ~= 1) then error__(4) end
 	return t
 	end
- 
+
+  function get_rl(ast, rul)
+	local _ = {}
+	while(not_empyth(ast)) do
+	  s = find_car(get_all_rule(ast), rul, function(_, __) return __ == nil and true or _ == __[1] end)
+	  if (s and s ~= nil) then table.insert(_, {s[2], ast[1][1]}) end
+	  ast = next_rule(ast)
+	end
+	return _
+	end
+
   c_rl_g = function(_) return #_ <= 1 and {{_:sub(1, 1), 1}} or {{_:sub(1, 1), 1}, unpack(c_rl_g(_:sub(2, #_)))} end
+  
+  function cut_t(t, _, __)
+	local s_ = {}
+	for i=_, __ do
+	  table.insert(s_, t[i])
+	end
+	return s_
+	end
+ 
+  t_str_form  = function(s_, _, ...) return #s_ <= 1 and "" or (_ and _[1] or "")..t_str_form(#{...} == 0 and s_ or {...}, unpack(#{...} == 0 and s_ or {...})) end
+
+  function get_context(s, _, ___)
+	local context_ = {}
+    for __=_, ___ do
+	  if (not find_car(context_,  s[__][2], (function(_, __) return _ == __ end))) then
+        table.insert(context_, s[__][2])
+	  end
+	end
+    return context_
+	end 
+
+  function seek_r(r, i_, cont_x)
+	local t = {}
+	for i, __ in pairs(i_) do
+	  if (find_car(cont_x, __, (function(_, __) return _[2] == __ end))) then
+	    table.insert(t, __)
+      end
+	end
+   
+	if (#t > 1) then
+      error__(5, r)
+	end
+    
+	return t
+    end
+
+  function rew___(stru_, re_, x, y)
+  print(re_[1])
+  return stru_
+  end
+
+  function exp__(ast, struct__, _, __) 
+	local cont = get_context(struct__, _, __)
+	local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __)) )
+	local m_stru_
+	if (not_empyth(_rl)) then
+	  m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), ast, cont)
+	  if (not_empyth(m_stru_)) then
+	    struct__ = rew___(struct__, m_stru_, _, __)
+	  end
+	end
+   end
+
+  function inter_p(ast, struc___)
+	local n = {unpack(ast)}
+	local rules
+	local t
+	while(not_empyth(n)) do
+	  rules = get_all_rule(n)
+	  for i,k in pairs(rules) do
+		t = 0
+        for i_, __ in pairs(rules) do		
+	      if k[1] == __[1] then t = t+1 end
+		end
+       if (t > 1) then error__(5, k[1]) end
+       end
+	   n = next_rule(n)
+	end
+
+	for i=1, #struc___ do
+	  for _=i+1, #struc___ do
+		exp__(ast, struc___, i, _)
+	  end
+	end
+	return true
+	end
 
   print_tabel = function(__) for k,i in pairs(__) do print(i[1].." "..i[2].." - "..i[3]) end end
   function g_m()
@@ -146,8 +230,10 @@
     local t_ = r_rules(c, {})
 	local n = {unpack(t_)}
 	local r = get_all_rule(t_)
+	print(get_rl(t_, "Z")[2][1])
 	local struct_ = c_rl_g(init_rl(t_)[2])
-	print(struct_[10][1])
+	local _ = inter_p(t_, struct_)
+	
 	while(not_empyth(n)) do
 	  print_tabel(get_all_rule(n))
 	  n = next_rule(n)
