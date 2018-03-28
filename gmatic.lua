@@ -1,4 +1,4 @@
- local lex = {"[", "]", " <- ", "Ώ"}
+ local lex = {"[", "]", " <- ", "Ώ", "(", ")"}
  local deli = {lex[1], lex[2], " ", "\n"}
  local error_ = {
 	{"Syntax Error: '[' or ']'", os.exit},
@@ -53,7 +53,7 @@
 
   f = function(x) return x(x) end
 
-  find_car = (function(__) return (function(s, r, func_) return  (__ (__, r, func_, unpack(s))) end) end) (function(_, f, func_, t, ...)  return (func_(f, t) and t) or (t ~= nil and _(_, f, func_, ...)) end)
+  find_car = (function(__) return (function(s, r, func_) return  (__ (__, r, func_, unpack(s))) end) end) (function(_, f, func_, t, ...)  return (t ~= nil and func_(f, t) and t) or (t ~= nil and _(_, f, func_, ...)) end)
 
   treat_str = function(str, i, d, c, _)
     while(i <= d or i >= 1) do
@@ -75,7 +75,6 @@
 	    t[#t][2] = right_r(left_r(s:sub(i+#lex[3], (f(function(_) return (function(s, t) return find_car(deli, s:sub(t, t), (function(_, __) return _ == __ end)) and t or t > #s and t or _ (_) (s, t+1) end) end) (s, i+#lex[3])))))
 		end
    end
-
    return t end
 
   function g_onl_r(s)
@@ -130,18 +129,46 @@
 	if (___[1] ~= 1) then error__(4) end
 	return t
 	end
+  
+  function is_s_context(rx_, cy_)
+  local function prx_p(t, c) return t:sub(c, c) == lex[6] and c or c < # t and prx_p(t, c+1) or false end
+	local p = 0
+	local s_
+	local r_ = 1
+	local context = {""}
+	local c_c = 1
+	if (is_rcont(rx_) and is_rcont(cy_)) then
+	  for i=1, #cy_ do
+	    s_ = cy_:sub(i, i)
+	    p = s_ == lex[5] and p+1 or s_ == lex[6] and p-1 or p
+		if (p == 0 and s_ == lex[6]) then
+		  if (not prx_p(rx_, r_)) then return false end
+		  r_ = prx_p(rx_, r_)
+		end
+        print(s_,  rx_:sub(r_, r_))
+		if (s_ == rx_:sub(r_, r_)) then
+		  r_ = r_+1
+		else
+		context[c_c] = context[c_c]..s_
+		if (p == 0) then return false end end
+		end
+	  end
+   if (r_ < #rx_) then return false end
+   return table.concat(context, ", ")
+   end
 
+  function is_rcont(rl) return rl:find("%"..lex[5]) and rl:find("%"..lex[6]) end
   function get_rl(ast, rul)
-	local _ = {}
+    local _ = {}
 	while(not_empyth(ast)) do
-	  s = find_car(get_all_rule(ast), rul, function(_, __) return __ == nil and true or _ == __[1] end)
+	  s = find_car(get_all_rule(ast), rul, function(_, __) return _ == __[1] end)
 	  if (s and s ~= nil) then table.insert(_, {s[2], ast[1][1]}) end
 	  ast = next_rule(ast)
 	end
 	return _
 	end
 
-  c_rl_g = function(_) return #_ <= 1 and {{_:sub(1, 1), 1}} or {{_:sub(1, 1), 1}, unpack(c_rl_g(_:sub(2, #_)))} end
+  c_rl_g = function(_, i_cont_) return #_ <= 1 and {{_:sub(1, 1), i_cont_}} or {{_:sub(1, 1), i_cont_}, unpack(c_rl_g(_:sub(2, #_), i_cont_))} end
   
   function cut_t(t, _, __)
 	local s_ = {}
@@ -151,7 +178,7 @@
 	return s_
 	end
  
-  t_str_form  = function(s_, _, ...) return #s_ <= 1 and "" or (_ and _[1] or "")..t_str_form(#{...} == 0 and s_ or {...}, unpack(#{...} == 0 and s_ or {...})) end
+  t_str_form  = function(s_, _, ...) return #s_ <= 1 and (#{...} == 0 and s_[1][1] or _[1]) or (_ and _[1] or "")..t_str_form(#{...} == 0 and s_ or {...}, unpack(#{...} == 0 and s_ or {...})) end
 
   function get_context(s, _, ___)
 	local context_ = {}
@@ -166,31 +193,33 @@
   function seek_r(r, i_, cont_x)
 	local t = {}
 	for i, __ in pairs(i_) do
-	  if (find_car(cont_x, __, (function(_, __) return _[2] == __ end))) then
+	  if (find_car(cont_x, __[2], (function(_, __) return _ <= (__+1) end))) then
 	    table.insert(t, __)
       end
 	end
-   
-	if (#t > 1) then
-      error__(5, r)
+	if (#t > 1) then error__(5, r) end
+	return t end
+
+  function c_cont(...)
+    local n_t = {}
+    for __,_ in pairs({...}) do
+	  for ____, ___ in pairs(_) do
+	    table.insert(n_t, ___)
+	  end
 	end
-    
-	return t
-    end
+    return n_t end
 
-  function rew___(stru_, re_, x, y)
-  print(re_[1])
-  return stru_
-  end
+  rew___ = function(stru_, re_, x, y) return c_cont(cut_t(stru_, 1, x-1), c_rl_g(re_[1], re_[2]), cut_t(stru_, y, #stru_)) end
 
-  function exp__(ast, struct__, _, __) 
+  function exp__(ast, struct__, _, __)
 	local cont = get_context(struct__, _, __)
-	local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __)) )
+	local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __)))
 	local m_stru_
 	if (not_empyth(_rl)) then
-	  m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), ast, cont)
+	  m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), get_rl(ast, t_str_form(cut_t(struct__, _, __))), cont)
 	  if (not_empyth(m_stru_)) then
-	    struct__ = rew___(struct__, m_stru_, _, __)
+	    struct__ = rew___(struct__, m_stru_[1], _, __)
+		print("new struct_ "..t_str_form(struct__))
 	  end
 	end
    end
@@ -212,7 +241,7 @@
 	end
 
 	for i=1, #struc___ do
-	  for _=i+1, #struc___ do
+	  for _=i, #struc___ do
 		exp__(ast, struc___, i, _)
 	  end
 	end
@@ -231,7 +260,7 @@
 	local n = {unpack(t_)}
 	local r = get_all_rule(t_)
 	print(get_rl(t_, "Z")[2][1])
-	local struct_ = c_rl_g(init_rl(t_)[2])
+	local struct_ = c_rl_g(init_rl(t_)[2], 0)
 	local _ = inter_p(t_, struct_)
 	
 	while(not_empyth(n)) do
@@ -239,6 +268,7 @@
 	  n = next_rule(n)
 	end
 
+  print(is_s_context("(D)+(S)", "(1)+(2)"))
   return true
   end
 

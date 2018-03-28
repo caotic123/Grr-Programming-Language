@@ -1,5 +1,5 @@
 [
-   Ώ <- ZPAX"HELLOWORLD"
+   Ώ <- A(A(ZPAX"HELLOWORLD"))
     A(D) <- D 
       Z <- "Azul"
         [
