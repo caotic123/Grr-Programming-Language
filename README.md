@@ -44,7 +44,7 @@ This following code back run the expression (4x3) and resolve this.
    ADD(X)(Y) <- XY
    MUL(X)(Y) <- Y-REPEATZ(X)
    *REPEATZ(X) <- REPEATZ(X)X
-    REPEATZ(X) <- X  
+   REPEATZ(X) <- X  
 ]
 ```
 
