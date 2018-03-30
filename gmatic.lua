@@ -5,7 +5,9 @@
 	{"Syntax error : Excessed number of '[' ']'", os.exit},
 	{"Error : Inital "..lex[4].." don't found", os.exit},
     {"Error : "..lex[4].." was defined out main scope", os.exit},
-	{"Error : Rules are ambigous or defined in same context", os.exit}
+	{"Error : Rules are ambigous or defined in same context", os.exit},
+	{"Error : Rules was defined?", os.exit},
+	{"Error : An undefined behavior ocurred"}
    }
 
  local forb_lex = {9}
@@ -137,32 +139,40 @@
 	local r_ = 1
 	local context = {""}
 	local c_c = 1
+	local p_contx = {{}}
 	if (is_rcont(rx_) and is_rcont(cy_)) then
 	  for i=1, #cy_ do
 	    s_ = cy_:sub(i, i)
 	    p = s_ == lex[5] and p+1 or s_ == lex[6] and p-1 or p
+
 		if (p == 0 and s_ == lex[6]) then
 		  if (not prx_p(rx_, r_)) then return false end
 		  r_ = prx_p(rx_, r_)
+		  p_contx[c_c] = {p_contx[c_c] and p_contx[c_c][1] or nil, i}
+		  c_c = c_c+1
+		  context[c_c] = ""
+		  p_contx[c_c] = {}
 		end
-        print(s_,  rx_:sub(r_, r_))
 		if (s_ == rx_:sub(r_, r_)) then
 		  r_ = r_+1
+	      p_contx[c_c][1] = s_ == lex[5] and i or p_contx[c_c][1]
 		else
 		context[c_c] = context[c_c]..s_
 		if (p == 0) then return false end end
 		end
 	  end
    if (r_ < #rx_) then return false end
-   return table.concat(context, ", ")
+
+   return {context, p_contx}
    end
 
   function is_rcont(rl) return rl:find("%"..lex[5]) and rl:find("%"..lex[6]) end
+
   function get_rl(ast, rul)
     local _ = {}
 	while(not_empyth(ast)) do
-	  s = find_car(get_all_rule(ast), rul, function(_, __) return _ == __[1] end)
-	  if (s and s ~= nil) then table.insert(_, {s[2], ast[1][1]}) end
+	  s = find_car(get_all_rule(ast), rul, function(_, __) return is_rcont(_) and is_rcont(__[1]) and is_s_context(__[1], _) or _ == __[1] end)
+	  if (s and s ~= nil) then table.insert(_, {s[2], ast[1][1], s[1]}) end
 	  ast = next_rule(ast)
 	end
 	return _
@@ -188,7 +198,33 @@
 	  end
 	end
     return context_
-	end 
+	end
+
+	function get_rnames(s)
+	  local t = {}
+	  local p = 0
+	  local l = 1
+	  for i=1, #s do
+		 t[l] = (t[l] and t[l] or "")..(p >= 1 and not (p == 1 and s:sub(i, i) == lex[6]) and s:sub(i, i) or "")
+		 l = (p == 1 and s:sub(i, i) == lex[6] and l+1 or l)
+	     p = s:sub(i, i) == lex[5] and p+1 or s:sub(i, i) == lex[6] and p-1 or p
+	  end
+	  return t
+	  end
+
+  function c_rul_struc(rule, _, e_)
+
+	local x = {}
+	local x_r = {{1, {}}}
+	local struc_ = {}
+	for i,t_ in pairs(is_s_context(rule, _)[1]) do
+		if (#t_ > 0) then x[get_rnames(rule)[i]] = t_ table.insert(x_r[1][2], {get_rnames(rule)[i], t_}) end
+	end
+	
+    table.insert(x_r[1], {})
+
+	return t_str_form(inter_p(x_r, c_rl_g(e_, 1)))
+  end
 
   function seek_r(r, i_, cont_x)
 	local t = {}
@@ -198,7 +234,7 @@
       end
 	end
 	if (#t > 1) then error__(5, r) end
-	return t end
+	return #t > 0 and (is_rcont(r) and {c_rul_struc(t[1][3], r, t[1][1]), t[1][2]}) or t[1] end
 
   function c_cont(...)
     local n_t = {}
@@ -209,25 +245,32 @@
 	end
     return n_t end
 
-  rew___ = function(stru_, re_, x, y) return c_cont(cut_t(stru_, 1, x-1), c_rl_g(re_[1], re_[2]), cut_t(stru_, y, #stru_)) end
+  rew___ = function(stru_, re_, x, y) return c_cont(cut_t(stru_, 1, x-1), c_rl_g(re_[1], re_[2]), cut_t(stru_, y+1, #stru_)) end
 
   function exp__(ast, struct__, _, __)
 	local cont = get_context(struct__, _, __)
 	local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __)))
 	local m_stru_
+
 	if (not_empyth(_rl)) then
-	  m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), get_rl(ast, t_str_form(cut_t(struct__, _, __))), cont)
-	  if (not_empyth(m_stru_)) then
-	    struct__ = rew___(struct__, m_stru_[1], _, __)
-		print("new struct_ "..t_str_form(struct__))
+	  --print("rule ".. _rl[1][1].."-"..t_str_form(cut_t(struct__, _, __)))
+	  m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), _rl, cont)
+	  if (m_stru_) then
+
+	    struct__ = rew___(struct__, m_stru_, _, __)
+		return {struct__, true}
 	  end
 	end
+
+	return {struct__, false}
    end
 
   function inter_p(ast, struc___)
 	local n = {unpack(ast)}
 	local rules
+	local n_struc = {struc___, true}
 	local t
+
 	while(not_empyth(n)) do
 	  rules = get_all_rule(n)
 	  for i,k in pairs(rules) do
@@ -239,36 +282,38 @@
        end
 	   n = next_rule(n)
 	end
-
-	for i=1, #struc___ do
-	  for _=i, #struc___ do
-		exp__(ast, struc___, i, _)
-	  end
-	end
-	return true
+	
+	n_struc = (function(n_struc)
+	  for i=1, #n_struc[1] do
+	    for _=i, #n_struc[1] do
+		   n_struc = exp__(ast, n_struc[1], i, _)
+		   if (n_struc[2]) then return n_struc end
+	    end
+	   end
+	   return n_struc
+	end) (n_struc)
+	
+	return n_struc[2] and inter_p(ast, n_struc[1]) or n_struc[1]
 	end
 
   print_tabel = function(__) for k,i in pairs(__) do print(i[1].." "..i[2].." - "..i[3]) end end
   function g_m()
-    local s = io.read() 
-    local g_fil = assert(io.open (s..".gmt", "r"))
-	local c = g_fil:read("*all")
+    local s = arg[1]
+    local c = s
+    local g_fil = io.open (s..".gmt", "r")
+	c = g_fil and g_fil:read("*all") or c
 	for i,k in pairs(forb_lex) do
 		c = string.gsub(c, string.char(k), " ")
 	end
+
     local t_ = r_rules(c, {})
+	if (#t_ <= 0) then error__(6) end
 	local n = {unpack(t_)}
 	local r = get_all_rule(t_)
-	print(get_rl(t_, "Z")[2][1])
 	local struct_ = c_rl_g(init_rl(t_)[2], 0)
-	local _ = inter_p(t_, struct_)
+	if (not pcall(function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
 	
-	while(not_empyth(n)) do
-	  print_tabel(get_all_rule(n))
-	  n = next_rule(n)
-	end
-
-  print(is_s_context("(D)+(S)", "(1)+(2)"))
+	
   return true
   end
 

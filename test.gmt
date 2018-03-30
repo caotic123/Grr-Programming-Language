@@ -1,13 +1,13 @@
 [
-   Ώ <- A(A(ZPAX"HELLOWORLD"))
-    A(D) <- D 
-      Z <- "Azul"
+   Ώ <- X("tuple")(X(X("Hello")("-")("World"))("tuple2")("with-three-three-values-where-the-second-is-a-other-three-tuple"))("end-of-tuple")
+      X(Y)(Z)(S) <- YZS
         [
-            P <- "HelloWorld"
-			Z <- "a"
+            A(B) <- BX
               [
-                  T <- X
-                  sd <- TESTT
+			   D <- "SS"Y
+			     [
+                  Y <- "LAMBDA"
+				 ]
               ]
         ]
 ]
