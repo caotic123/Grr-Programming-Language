@@ -11,8 +11,8 @@ Hello World:
 
 Everything is a string and everything can be a rule (or a variable explicit or a variable implicit).
 
-#Some of implementations
-
+# Some of implementations
+ 
 Like Lambda Calculus is possible redute intenger in few lines of code:
 As example:
 
