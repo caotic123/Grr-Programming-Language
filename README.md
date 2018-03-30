@@ -13,7 +13,7 @@ Everything is a string and everything can be a rule (or a variable explicit or a
 
 # Some of implementations
  
-Like Lambda Calculus is possible redute intenger in few lines of code:
+Like Lambda Calculus is possible reduce integer numbers in few lines of code:
 As example:
 
 ```
@@ -30,7 +30,7 @@ As example:
 ]
 ```
 Let's think each rule generates more '*', so it's basically a increment or decrement of * then 0 =```N``` and 4 =```****```.
-Although it's allow count number, only this way is limited so we can to define a new operation ```ADD(X)(Y) <- XY```, and allow the sum of two numbers. And after all the multiplication:
+Although it's allow count number, only this way is limited so we can to define a new operation ```ADD(X)(Y) <- XY```, and this allow the sum of two numbers. And after all, the multiplication:
 This following code back run the expression (4x3) and resolve this.
 
 ```
