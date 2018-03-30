@@ -302,7 +302,7 @@ end
 
 print_tabel = function(__) for k,i in pairs(__) do print(i[1].." "..i[2].." - "..i[3]) end end
 function g_m()
-    local s = arg[1] ~= nil and  arg[1] or io.read()
+    local s = arg ~= nil and arg[1] ~= nil and arg[1] or io.read()
     local c = s
     local g_fil = io.open (s..".gmt", "r")
     c = g_fil and g_fil:read("*all") or c
