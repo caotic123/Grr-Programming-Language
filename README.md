@@ -6,7 +6,7 @@ Hello World:
 
 ```
 [P <- "Hello World"]
-[Init <- P]
+[Ώ <- P]
 ```
 
 Everything is a string and everything can be a rule (or a variable explicit or a variable implicit).
