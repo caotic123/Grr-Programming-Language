@@ -1,13 +1,5 @@
 [
-   Ώ <- X("tuple")(X(X("Hello")("-")("World"))("tuple2")("with-three-three-values-where-the-second-is-a-other-three-tuple"))("end-of-tuple")
-      X(Y)(Z)(S) <- YZS
-        [
-            A(B) <- BX
-              [
-			   D <- "SS"Y
-			     [
-                  Y <- "LAMBDA"
-				 ]
-              ]
-        ]
+   Ώ <- ADD(ZERO)
+   ZERO <- *
+   ADD(Y) <- YY
 ]

@@ -1,4 +1,4 @@
-local lex = {"[", "]", " <- ", "Ώ", "(", ")"}
+local lex = {"[", "]", " <- ", "Ώ", "(", ")", "λ"}
 local deli = {lex[1], lex[2], " ", "\n"}
 local error_ = {
     {"Syntax Error: '[' or ']'", os.exit},
@@ -240,20 +240,24 @@ function c_cont(...)
     local n_t = {}
     for __,_ in pairs({...}) do
         for ____, ___ in pairs(_) do
-            table.insert(n_t, ___)
+			table.insert(n_t, ___)
         end
     end
     return n_t end
 
 rew___ = function(stru_, re_, x, y) return c_cont(cut_t(stru_, 1, x-1), c_rl_g(re_[1], re_[2]), cut_t(stru_, y+1, #stru_)) end
+cut___ = function(stru_, x, y) return c_cont(cut_t(stru_, 1, x-1), {}, cut_t(stru_, y+1, #stru_)) end
 
 function exp__(ast, struct__, _, __)
     local cont = get_context(struct__, _, __)
-    local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __)))
+    local _rl = get_rl(ast, t_str_form(cut_t(struct__, _, __) ))
     local m_stru_
+    if (t_str_form(cut_t(struct__, _, __)) == lex[7]) then
+		return {cut___(struct__, _, __), true}
+	end
 
     if (not_empyth(_rl)) then
-        --print("rule ".. _rl[1][1].."-"..t_str_form(cut_t(struct__, _, __)))
+
         m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), _rl, cont)
         if (m_stru_) then
 
@@ -298,7 +302,7 @@ end
 
 print_tabel = function(__) for k,i in pairs(__) do print(i[1].." "..i[2].." - "..i[3]) end end
 function g_m()
-    local s = arg[1]
+    local s = arg[1] ~= nil and  arg[1] or io.read()
     local c = s
     local g_fil = io.open (s..".gmt", "r")
     c = g_fil and g_fil:read("*all") or c
