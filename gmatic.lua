@@ -48,7 +48,7 @@
    for i=0, #t do
      p = t:sub(i, i) == lex[1] and p+1 or t:sub(i, i) == lex[2] and p-1 or p
      __ = (t:sub(i, i) == lex[2] and p == 2) and __+1 or __
-	end
+    end
     return (not (__ >= 2))
   end
  
@@ -72,9 +72,9 @@
 	local t = {}
 	for i=1, #s do
 	  if (s:sub(i, (i-1)+#lex[3]) == lex[3]) then
-	    t[#t+1] = {}
-		t[#t][1] = right_r(left_r(string.sub(s, f(function(_) return (function(s, t) return (find_car(deli, s:sub(t, t), (function(_, __) return _ == __ end) ) and t) or t == 0 and t or _ (_) (s, t-1) end) end) (s, i-1), i)))
-	    t[#t][2] = right_r(left_r(s:sub(i+#lex[3], (f(function(_) return (function(s, t) return find_car(deli, s:sub(t, t), (function(_, __) return _ == __ end)) and t or t > #s and t or _ (_) (s, t+1) end) end) (s, i+#lex[3])))))
+        t[#t+1] = {}
+        t[#t][1] = right_r(left_r(string.sub(s, f(function(_) return (function(s, t) return (find_car(deli, s:sub(t, t), (function(_, __) return _ == __ end) ) and t) or t == 0 and t or _ (_) (s, t-1) end) end) (s, i-1), i)))
+        t[#t][2] = right_r(left_r(s:sub(i+#lex[3], (f(function(_) return (function(s, t) return find_car(deli, s:sub(t, t), (function(_, __) return _ == __ end)) and t or t > #s and t or _ (_) (s, t+1) end) end) (s, i+#lex[3])))))
 		end
    end
    return t end
@@ -87,7 +87,7 @@
 	t = s:sub(i, i)
     x = (t == lex[1] and x+1 or t == lex[2] and x-1 or x)
     if (x == 1 and t == lex[1]) then p_ = i end
-	if (x == 0 and t == lex[2]) then s = string.sub(s, 1, p_-1)..string.sub(s, i, #s-i) i = 1 end 
+    if (x == 0 and t == lex[2]) then s = string.sub(s, 1, p_-1)..string.sub(s, i, #s-i) i = 1 end 
   end
   return left_r(right_r(s)) end
 
@@ -305,17 +305,13 @@
 	for i,k in pairs(forb_lex) do
 		c = string.gsub(c, string.char(k), " ")
 	end
-
     local t_ = r_rules(c, {})
 	if (#t_ <= 0) then error__(6) end
 	local n = {unpack(t_)}
 	local r = get_all_rule(t_)
 	local struct_ = c_rl_g(init_rl(t_)[2], 0)
 	if (not pcall(function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
-	
-	
   return true
   end
-
 
 g_m()
