@@ -140,6 +140,7 @@ function is_s_context(rx_, cy_)
     local context = {""}
     local c_c = 1
     local p_contx = {{}}
+    local t = false
     if (is_rcont(rx_) and is_rcont(cy_)) then
         for i=1, #cy_ do
             s_ = cy_:sub(i, i)
@@ -154,15 +155,17 @@ function is_s_context(rx_, cy_)
                 p_contx[c_c] = {}
             end
             if (s_ == rx_:sub(r_, r_)) then
-                r_ = r_+1
+             --   t = s_ ~= lex[5] and s_ ~= lex[6] and t or true
+                if (s_ ~= lex[5] and s_ ~= lex[6]) then t = true end
                 p_contx[c_c][1] = s_ == lex[5] and i or p_contx[c_c][1]
+                r_ = r_+1
             else
                 context[c_c] = context[c_c]..s_
                 if (p == 0) then return false end end
         end
     end
+    if (not t) then return false end
     if (r_ < #rx_) then return false end
-
     return {context, p_contx}
 end
 
@@ -213,7 +216,6 @@ function get_rnames(s)
 end
 
 function c_rul_struc(rule, _, e_)
-
     local x = {}
     local x_r = {{1, {}}}
     local struc_ = {}
@@ -222,7 +224,6 @@ function c_rul_struc(rule, _, e_)
     end
 
     table.insert(x_r[1], {})
-
     return t_str_form(inter_p(x_r, c_rl_g(e_, 1)))
 end
 
@@ -233,7 +234,9 @@ function seek_r(r, i_, cont_x)
             table.insert(t, __)
         end
     end
-    if (#t > 1) then error__(5, r) end
+    table.sort(t, function(_, __) return _[2] > __[2] end)
+    
+   -- if (#t > 1) then error__(5, r) end
     return #t > 0 and (is_rcont(r) and {c_rul_struc(t[1][3], r, t[1][1]), t[1][2]}) or t[1] end
 
 function c_cont(...)
@@ -255,13 +258,12 @@ function exp__(ast, struct__, _, __)
     if (t_str_form(cut_t(struct__, _, __)) == lex[7]) then
 		return {cut___(struct__, _, __), true}
 	end
-
+    
     if (not_empyth(_rl)) then
-
         m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), _rl, cont)
         if (m_stru_) then
-
             struct__ = rew___(struct__, m_stru_, _, __)
+            print(t_str_form(struct__))
             return {struct__, true}
         end
     end
