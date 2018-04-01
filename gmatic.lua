@@ -146,7 +146,7 @@ function is_s_context(rx_, cy_)
             s_ = cy_:sub(i, i)
             p = s_ == lex[5] and p+1 or s_ == lex[6] and p-1 or p
 
-            if (p == 0 and s_ == lex[6]) then
+            if (p == 0 and s_ == lex[6] and rx_:sub(r_+1, r_+1) == lex[6]) then
                 if (not prx_p(rx_, r_)) then return false end
                 r_ = prx_p(rx_, r_)
                 p_contx[c_c] = {p_contx[c_c] and p_contx[c_c][1] or nil, i}
@@ -260,10 +260,10 @@ function exp__(ast, struct__, _, __)
 	end
     
     if (not_empyth(_rl)) then
+	    print(t_str_form(struct__), _rl[1][3], _rl[1][1])
         m_stru_ = seek_r(t_str_form(cut_t(struct__, _, __)), _rl, cont)
         if (m_stru_) then
             struct__ = rew___(struct__, m_stru_, _, __)
-            print(t_str_form(struct__))
             return {struct__, true}
         end
     end
@@ -316,7 +316,7 @@ function g_m()
     local n = {unpack(t_)}
     local r = get_all_rule(t_)
     local struct_ = c_rl_g(init_rl(t_)[2], 0)
-    if (not pcall(function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
+   if (not pcall(function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
     return true
 end
 
