@@ -219,9 +219,15 @@ function c_rul_struc(rule, _, e_)
     local x = {}
     local x_r = {{1, {}}}
     local struc_ = {}
+	
+	
     for i,t_ in pairs(is_s_context(rule, _)[1]) do
         if (#t_ > 0) then x[get_rnames(rule)[i]] = t_ table.insert(x_r[1][2], {get_rnames(rule)[i], t_}) end
     end
+	
+	for i,k in pairs(get_rnames(rule)) do
+		if not x[k] then print(k.." não disponivel to "..lex[7]) table.insert(x_r[1][2], {k, lex[7]}) end
+	 end
 
     table.insert(x_r[1], {})
     return t_str_form(inter_p(x_r, c_rl_g(e_, 1)))
@@ -272,11 +278,14 @@ function exp__(ast, struct__, _, __)
 end
 
 function inter_p(ast, struc___)
+
     local n = {unpack(ast)}
     local rules
     local n_struc = {struc___, true}
     local t
-
+	
+	if (#struc___ <= 0) then return c_rl_g(lex[7], 0) end
+	
     while(not_empyth(n)) do
         rules = get_all_rule(n)
         for i,k in pairs(rules) do
@@ -316,7 +325,7 @@ function g_m()
     local n = {unpack(t_)}
     local r = get_all_rule(t_)
     local struct_ = c_rl_g(init_rl(t_)[2], 0)
-   if (not pcall(function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
+    if not pcall((function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
     return true
 end
 
