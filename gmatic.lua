@@ -141,14 +141,15 @@ function is_s_context(rx_, cy_)
     local c_c = 1
     local p_contx = {{}}
     local t = false
-    if (is_rcont(rx_) and is_rcont(cy_)) then
+    if (is_rcont(rx_) and is_rcont(cy_) and rx_:sub(1, 1) == cy_:sub(1, 1)) then
         for i=1, #cy_ do
             s_ = cy_:sub(i, i)
             p = s_ == lex[5] and p+1 or s_ == lex[6] and p-1 or p
-
+            
+            if (p == 0 and s_ ~= rx_:sub(r_, r_) and s_ ~= lex[6]) then return false end           
             if (p == 0 and s_ == lex[6] and rx_:sub(r_+1, r_+1) == lex[6]) then
                 if (not prx_p(rx_, r_)) then return false end
-                r_ = prx_p(rx_, r_)
+                r_ = r_+1
                 p_contx[c_c] = {p_contx[c_c] and p_contx[c_c][1] or nil, i}
                 c_c = c_c+1
                 context[c_c] = ""
@@ -165,7 +166,7 @@ function is_s_context(rx_, cy_)
         end
     end
     if (not t) then return false end
-    if (r_ < #rx_) then return false end
+    if (r_ <= #rx_) then return false end
     return {context, p_contx}
 end
 
@@ -226,7 +227,7 @@ function c_rul_struc(rule, _, e_)
     end
 	
 	for i,k in pairs(get_rnames(rule)) do
-		if not x[k] then print(k.." não disponivel to "..lex[7]) table.insert(x_r[1][2], {k, lex[7]}) end
+		if not x[k] then table.insert(x_r[1][2], {k, lex[7]}) end
 	 end
 
     table.insert(x_r[1], {})
@@ -325,6 +326,7 @@ function g_m()
     local n = {unpack(t_)}
     local r = get_all_rule(t_)
     local struct_ = c_rl_g(init_rl(t_)[2], 0)
+    --print(is_s_context("F(y)", "F(14)"))
     if not pcall((function() print(t_str_form(inter_p(t_, struct_))) end)) then error__(7) end
     return true
 end
