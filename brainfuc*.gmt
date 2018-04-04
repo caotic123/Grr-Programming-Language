@@ -1,0 +1,78 @@
+[
+   Ώ <- BRAINFUCK(>+<+++{-})
+   Δ* <- * *Δ <- * *α <- λΔ α* <- λΔ INC(Y) <- Y* DEC(K) <- Kα
+   ADD(X)(Y) <- XY MUL(X)(Y) <- Y-REPEATZ(X) *REPEATZ(X) <- REPEATZ(X)X REPEATZ(X) <- X
+   FIVE <- INC(INC(INC(INC(INC(Δ)))))
+   TEN <- ADD(FIVE)(FIVE)
+   HUNDRED <- MUL(TEN)(TEN)
+   THOUSAND <- MUL(HUNDRED)(HUNDRED)
+   MULK(_)(X)(Y) <- _DEC(DEC(Y))REPEATZ(X)
+   BRAINFUCK(x) <- 'BF(TAPE(x))'G___K
+ 
+   [
+     TAPE(x) <- MULK(kPOINTER(x)(Δ))(POINTER)(TEN)
+     kPOINTER(x)(y) <- yx|T(x)(y)(λ)(Δ)
+	 POINTER <- T(#)(Δ)(λ)(Δ)
+	 
+	 ç> <- move_cell
+	 ç< <- back_cell
+	 ç+ <- incre_cell
+	 ç- <- decr_cell
+	 ç{ <- init_loop
+	 ç} <- cond_loop
+	 
+	 Δ> <- ç>P
+	 Δ< <- ç<P
+	 Δ+ <- ç+P
+	 Δ- <- ç-P
+	 Δ{ <- ç{P
+	 Δ} <- ç}P
+	  
+	 P> <- P
+	 P< <- P
+	 P+ <- P
+	 P- <- P
+	 P{ <- P
+	 P} <- P
+	 
+	 *> <- *α
+	 *< <- *α
+	 *+ <- *α
+	 *- <- *α
+	 *{ <- *α
+	 *} <- *α
+
+	 *S| <- SX|
+	 *SX <- SX
+	 
+	 P| <- λ|
+	 PT <- T
+	 
+	 ΔS| <- CON_|
+	
+	 SX| <- REP_|
+	 Δ| <- |
+	 
+	 AA(D)l <- l
+	 
+	 AA(_)0 <- l_
+	 
+	 l* <- *
+	 lΔ <- Δ
+	 
+	 move_cell|T(x)(y)(z)($)T(X)(Y)(Z)(_) <- T(#)(Δ)(z)($)y*x|T(x)(y*)(Z)(_)
+	 T(X)(Y)(Z)(_)back_cell|T(x)(y)(z)($) <- y*x|T(x)(y*)(Z)(_)T(#)(Δ)(z)($)
+	 incre_cell|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Z)(_*)
+	 decr_cell|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Z)(_α)
+	 init_loop|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(ZAA(Y))(_)
+	 cond_loop|T(X)(Y)(Z)(_) <- _S|T(X)(Y)(Z)(_)
+	 CON_|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Zl)(_)
+	 REP_|T(X)(Y)(Z)(_) <- Z0X|T(X)(Z0)(Zl)(_)
+	 G___K <- ___END
+	 
+	 ['BF(x)'___END <- x
+	   [T(x)(y)(z)(_) <- (_)]
+	 ]
+   ]
+   
+]
