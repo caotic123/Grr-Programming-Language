@@ -29,7 +29,7 @@ X takes a the S string and P takes a X, so... P in the finally takes a S rule. I
 ```
 
 Begining X this generates a string X <- DX so... (DDX)...(DDDX)....., until don't generate the rule (DDDDDDDDDX) and halts.
-A recurse added in Grr Language that don't belong the gramatic of chomsky it's a parameterization of rules it's means that rules can be ignore and extract substring and treat this.
+A recurse added in Grr Language that don't belong the gramatic of chomsky it's a parameterization of rules it's means that rules can be ignore, extract and treat substrings.
 
 ```
 P <- D(return this)
