@@ -65,7 +65,7 @@ In the example, the code returns only K by rule P, because P is F(F(x))x and all
 
 # Some Implications of Grr
 
-To proof that Grr is a turing-complete it's necessary construct a Turing Machine in Grr or just descrive a language that also being a turing completeness. The proof was constructed in brainfuck where file brainf.gmt is the code. A interpreter of brainfuck a minimal and basic turing completeness language, however, exist others forms to proof this.
+To proof that Grr is a turing-complete it's necessary construct a Turing Machine in Grr or just descrive a language that also being turing completeness. The proof was a interpreter of brainfuck a minimal and basic turing completeness language constructed where the file brainf.gmt is the code, however, exist others forms to proof this.
 
 In Grr exist a new form of rules that ignore and to receive substring and we called this of functions, but this functions maybe can be a math function and simulate lambda calculus?. In theory Grr Functions only do replace of strings no more...., but it's means that this function can to return a other function and to receive a function as parameter ok then they are higher-order function. Using only textual names for descrive the lambda functions it's possibly creates a combinator Y.
 
