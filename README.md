@@ -1,6 +1,6 @@
 # GRR-LANGUAGE
 
-Grr Language is a turing completeness recursive language that is based Chomsky grammar, however, works with few and powerful abstractions.
+Grr Language is a turing completeness recursive language that is based in Chomsky theory about Chomsky hierarchy in focus on Type-0 Languages and Generative grammar.
 
 Hello World:
 
