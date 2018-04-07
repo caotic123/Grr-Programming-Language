@@ -1,0 +1,12 @@
+[
+   Ώ <- MUL(FOUR)(FOUR)
+   FOUR <- INC(INC(INC(INC(N))))
+   N* <- *
+   INC(Y) <- Y*
+   DEC(K) <- K-
+   *- <- λ
+   ADD(X)(Y) <- XY
+   MUL(X)(Y) <- Y-REPEATZ(X)
+   *REPEATZ(X) <- REPEATZ(X)X
+   REPEATZ(X) <- X 
+]
