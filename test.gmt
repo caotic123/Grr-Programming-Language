@@ -1,5 +1,0 @@
-[
-   Ώ <- ADD(ZERO)
-   ZERO <- *
-   ADD(Y) <- YY
-]
