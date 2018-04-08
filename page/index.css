@@ -62,7 +62,6 @@ label {
     margin-bottom: 1em;
 }
 
-
 .pure-button {
     background-color: #1f8dd6;
     color: white;
@@ -77,14 +76,14 @@ a.pure-button-primary {
     font-size: 120%;
 }
 
-
 .home-menu {
-    padding: 0.5em;
+    padding: 0.2em;
     text-align: center;
     box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 }
 .home-menu {
-    background: #C54D4D;
+    background: #4b717a;
+    background-image : url("test.png")
 }
 .pure-menu.pure-menu-fixed {
     /* Fixed menus normally have a border at the bottom. */
@@ -97,6 +96,7 @@ a.pure-button-primary {
     color: white;
     font-weight: 400;
     font-size: 120%;
+	font-family: "Times New Roman", Times, serif;
 }
 
 .home-menu .pure-menu-selected a {
@@ -111,6 +111,15 @@ a.pure-button-primary {
     background: none;
     border: none;
     color: #AECFE5;
+}
+
+ #boxing { 
+    margin: 0px;
+    position: absolute;
+    top: 53px;
+    bottom: 66px;
+    left: 0;
+    right: 0;
 }
 
 .splash-container {
@@ -268,33 +277,40 @@ a.pure-button-primary {
 }
 
 
-.input {
-  right : 10px;
-  color : yellow;
+.run {
+    background: rgb(28, 184, 65); 
 }
 
-.out_area {
-    background: #38494c;
+.continue {
+    background: rgb(97, 105, 119); 
+}
+
+.examples {
+    background: transparent;
     z-index: 1;
     overflow: hidden;
-    /* The following styles are required for the "scroll-over" effect */
     width: 42%;
-    height: 91%;
-    top: 0;
-    left: 780px;
+    height: 5%;
+    top: 560px;
+    left: 750px;
     position: fixed !important;
 }
 
- #editor { 
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-  }
-
-
-.output {
-  
+.example_button {
+	background : #75966a
 }
 
+.console {
+	display: inline-block;
+    color: #CCCCCC;
+	background: #000000;
+	border: 3px double #CCCCCC;
+	font-family:Courier;
+    z-index: 1;
+    overflow: hidden;
+    width: 42%;
+    height: 72%;
+    top: 55px;
+    left: 750px;
+    position: fixed !important;
+}
