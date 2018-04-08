@@ -73,7 +73,6 @@ typewriter.deleteAll().typeString(s).start();
             });
         });
 </script>
-    
 
 <script type="text/lua">
 
@@ -81,7 +80,7 @@ window = js.global
 document = window.document
 ace = js.global.ace
 
-print(io.open("examples/brainf.gmt", "r"))
+js.global:alert(io.open("examples/brainf.gmt", "r"))
 
 local ui_ = {document:getElementById('run'), ace:edit("boxing"), document:getElementById('continue'), document:getElementById('output'), document:getElementById('step')}
 
