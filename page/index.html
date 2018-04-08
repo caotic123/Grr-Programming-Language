@@ -18,7 +18,7 @@
 <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("boxing");
-    editor.setTheme("ace/theme/twilight");
+    editor.setTheme("ace/theme/tomorrow_night_eighties");
 
 	editor.resize();
 </script>
@@ -28,9 +28,9 @@
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading" href="">Grr REPL...&nbsp &nbsp <img src="image.png" alt="Grr..." height="20" width="20"> </a>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Tour</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sign Up</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="https://caotic123.github.io/Grr-Programming-Language/" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="https://github.com/caotic123/Grr-Programming-Language" class="pure-menu-link">Github</a></li>
+            <li class="pure-menu-item"><a href="https://github.com/caotic123" class="pure-menu-link">Bugs? Contact Me!</a></li>
         </ul>
     </div>
 </div>
@@ -49,10 +49,10 @@ typewriter.deleteAll().typeString(s).start();
 
  <div class = "examples">
  <div class="pure-button-group" role="group" aria-label="...">
-    <button class="pure-button example_button">HelloWorld</button>
-    <button class="pure-button example_button">Numerals</button>
-    <button class="pure-button pure-button-active example_button">BrainF</button>
-    <button class="pure-button pure-button-active example_button">BrainFuc</button>
+    <button class="pure-button example_button" id = "h_">HelloWorld</button>
+    <button class="pure-button example_button" id = "b_">BrainFuc*</button>
+    <button class="pure-button pure-button-active example_button" id = "n_">Numerals</button>
+    <button class="pure-button pure-button-active example_button" id = "r_">Recursive</button>
 </div>
  </div>
     
@@ -61,28 +61,18 @@ typewriter.deleteAll().typeString(s).start();
 <a class="pure-button" id = "step" href="#">Step</a>
 <a class="pure-button continue" id = "continue" href="#">Continue</a>
 
-    </div>
+</div>
 
 <script src="lua.vm.js"></script>
-
- <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script>
-        $(function() {
-            $.get('examples/brainf.gmt', function(data) {
-               $('#text-file-container').html(data);
-            });
-        });
-</script>
-
 <script type="text/lua">
-
 window = js.global
 document = window.document
 ace = js.global.ace
 
-js.global:alert(io.open("examples/brainf.gmt", "r"))
 
-local ui_ = {document:getElementById('run'), ace:edit("boxing"), document:getElementById('continue'), document:getElementById('output'), document:getElementById('step')}
+local example = {"[Ώ <- T\nT <- HelloWorld]", "[\n  Ώ <- BRAINFUCK(>++{-}<+)\n  Δ* <- * *Δ <- * *α <- λΔ α* <- λΔ INC(Y) <- Y* DEC(K) <- Kα\n  ADD(X)(Y) <- XY MUL(X)(Y) <- Y-REPEATZ(X) *REPEATZ(X) <- REPEATZ(X)X REPEATZ(X) <- X\n  FIVE <- INC(INC(INC(INC(INC(Δ)))))\n  TEN <- ADD(FIVE)(FIVE)\n  HUNDRED <- MUL(TEN)(TEN)\n  THOUSAND <- MUL(HUNDRED)(HUNDRED)\n  MULK(_)(X)(Y) <- _DEC(DEC(Y))REPEATZ(X)\n  BRAINFUCK(x) <- 'BF(TAPE(x))'G___K \n  [\n    TAPE(x) <- MULK(kPOINTER(x)(Δ))(POINTER)(TEN)\n    kPOINTER(x)(y) <- yx|T(x)(y)(λ)(Δ)\n    POINTER <- T(#)(Δ)(λ)(Δ)\n    ç> <- move_cell ç< <- back_cell ç+ <- incre_cell ç- <- decr_cell ç{ <- init_loop ç} <- cond_loop\n    Δ> <- ç>P Δ< <- ç<P Δ+ <- ç+P Δ- <- ç-P Δ{ <- ç{P Δ} <- ç}P\n    P> <- P P< <- P P+ <- P P- <- P P{ <- P P} <- P\n    *> <- *α *< <- *α *+ <- *α *- <- *α *{ <- *α *} <- *α\n    *S| <- SX| *SX <- SX\n    P| <- λ| PT <- T\n    ΔS| <- CON_| SX| <- REP_|\n    AA(D)l <- l AA(_)0 <- l_\n    l* <- * lΔ <- Δ Δ| <- |\n    move_cell|T(x)(y)(z)($)T(X)(Y)(Z)(_) <- T(#)(Δ)(z)($)y*x|T(x)(y*)(Z)(_)\n    T(X)(Y)(Z)(_)back_cell|T(x)(y)(z)($) <- y*x|T(x)(y*)(Z)(_)T(#)(Δ)(z)($)\n    incre_cell|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Z)(_*)\n    decr_cell|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Z)(_α)\n    init_loop|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(ZAA(Y))(_)\n    cond_loop|T(X)(Y)(Z)(_) <- _S|T(X)(Y)(Z)(_)\n    CON_|T(X)(Y)(Z)(_) <- Y*X|T(X)(Y*)(Zl)(_)\n    REP_|T(X)(Y)(Z)(_) <- Z0X|T(X)(Z0)(Zl)(_)\n    G___K <- ___END	 \n    [\n      'BF(x)'___END <- x\n      [\n        T(x)(y)(z)(_) <- (_)\n      ]\n    ]\n  ]\n]", "[\n   Ώ <- MUL(FOUR)(FOUR)\n   FOUR <- INC(INC(INC(INC(N))))\n   N* <- *\n   INC(Y) <- Y*\n   DEC(K) <- K-\n   *- <- λ\n   ADD(X)(Y) <- XY\n   MUL(X)(Y) <- Y-REPEATZ(X)\n   *REPEATZ(X) <- REPEATZ(X)X\n   REPEATZ(X) <- X \n]", "WARNING : Only click in step buttom\n[Ώ <- I\nI <- P(R...)(R)(G)\nP(x)(y)(z) <- zyxP(xx)(yy)(zz)]"}
+
+local ui_ = {document:getElementById('run'), ace:edit("boxing"), document:getElementById('continue'), document:getElementById('output'), document:getElementById('step'), document:getElementById('h_'), document:getElementById('b_'), document:getElementById('n_'), document:getElementById('r_')}
 
 ---function f(x) return (function(c) print(x) return c(x)[1] and (function() return f(c(x)) end) or x[2] end) end
 ---function __x(x) return (function() print(x) __x(x) return js.global:setTimeout(__x(x), 50) end) end
@@ -431,15 +421,32 @@ function g_m(c, __p)
     return true
 end
 
+ui_[6]:addEventListener('click', function(e)
+     ui_[2].session:setValue(example[1])
+end)
+
+ui_[7]:addEventListener('click', function(e)
+     ui_[2].session:setValue(example[2])
+end)
+
+ui_[8]:addEventListener('click', function(e)
+     ui_[2].session:setValue(example[3])
+end)
+
+ui_[9]:addEventListener('click', function(e)
+     ui_[2].session:setValue(example[4])
+end)
+
 ui_[1]:addEventListener('click', function(e)
-   thread = thread and thread or coroutine.create(function() return g_m(ui_[2]:getValue(), true) end)
+   thread = coroutine.create(function() return g_m(ui_[2]:getValue(), true) end)
    while(coroutine.resume(thread)) do
    end
 end)
 
 ui_[5]:addEventListener('click', function(e)
-   js.global:alert('hello from Lua script tag in HTML!')
+   js.global:alert("Click in continue for stepping in program")
    thread = coroutine.create(function() return g_m(ui_[2]:getValue()) end)
+   coroutine.resume(thread)
 end)
 
 ui_[3]:addEventListener('click', function(e)
