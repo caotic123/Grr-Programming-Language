@@ -82,7 +82,7 @@ In Grr exist a new form of rules that ignore and to receive substring and we cal
 
 Hummm, to stay thinking.... :D
 
-# Some of implementations
+# Some implementations
  
 Like Lambda Calculus is possible reduce integer numbers in few lines of code:
 As example:
