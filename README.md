@@ -118,8 +118,3 @@ This following code back run the expression (4x3) and resolve this.
    REPEATZ(X) <- X  
 ]
 ```
-
-Explicit Attribution:
-X <- T, that generates XXXXX = TTTTT
-Implicit Attribution:
-"Blue" <- "Yellow" that generates "Blue is a blue color" = "Yellow is a yellow colour"....
