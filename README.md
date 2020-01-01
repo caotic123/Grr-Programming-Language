@@ -2,7 +2,7 @@
 
 Try Grr Online in : https://caotic123.github.io/GRR-REPL/
 
-Grr Language is a turing completeness recursive language that is based in Chomsky theory about Chomsky hierarchy in focus on Type-0 Languages and Generative grammar.
+Grr Language is a turing completeness recursive language that is based in Chomsky theory in focus on Type-0 Languages and Generative grammar.
 
 Hello World:
 
